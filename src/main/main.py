@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 import json
-from logging import getLogger, config
+from logging import getLogger, config, getHandlerByName
 from discord.ext import commands
 import discord
 
@@ -17,6 +17,9 @@ def main():
         config.dictConfig(json.load(f))
 
     logger = getLogger(__name__)
+    logger_disc = getLogger('discord')
+    logger_disc.addHandler(getHandlerByName('consoleHandler'))
+    logger_disc.addHandler(getHandlerByName('fileHandler'))
 
     # set environment variables
     load_dotenv()
@@ -36,7 +39,7 @@ def main():
 
     @bot.event
     async def on_ready():
-        print(f'We have logged in as {bot.user}')
+        logger.info(f'We have logged in as {bot.user}')
 
     @bot.command(name=cmdName('kamlon', IS_DEV))
     async def show_info(ctx):
@@ -46,7 +49,7 @@ def main():
     async def on_command_error(ctx, e):
         cmd = ctx.invoked_with
         if isinstance(e, commands.CommandNotFound):
-            print(f'"{cmd}" command not found')
+            logger.info(f'"{cmd}" command not found')
 
         return
 
@@ -55,4 +58,4 @@ def main():
     #     if message.author == bot.user:
     #         return
 
-    bot.run(TOKEN)
+    bot.run(TOKEN, log_handler=None)

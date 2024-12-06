@@ -1,9 +1,11 @@
 import requests
 import discord
-
+from logging import getLogger
 from .scraping import getCurrentRateByUserId
 
 async def kamlon(ctx):
+    logger = getLogger(__name__)
+
     KAMLON_ID = 54285
     try:
         data = getCurrentRateByUserId(KAMLON_ID)
@@ -20,9 +22,9 @@ async def kamlon(ctx):
         await ctx.send(embed=embedMsg)
 
     except requests.RequestException as e:
-        print(f"Error: {e}")
+        logger.info(f"Error: {e}")
         await ctx.send('取得に失敗しました')
 
     except Exception as e:
-        print(f"Error: {e}")
+        logger.error(f"Error: {e}")
         await ctx.send('取得に失敗しました')

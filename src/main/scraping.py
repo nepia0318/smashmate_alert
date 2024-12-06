@@ -1,8 +1,11 @@
 import requests
 import re
+from logging import getLogger
 from bs4 import BeautifulSoup
 
 def getCurrentRateByUserId(userId):
+    logger = getLogger(__name__)
+
     base_url = "https://smashmate.net/user/"
     print(f'url: {base_url + str(userId)}')
 
@@ -27,7 +30,7 @@ def getCurrentRateByUserId(userId):
             'maximum_rate'   : elements[3].text.strip(),
             'match_result'   : elements[5].text.strip()
         }
-        print(results)
+        logger.info(results)
     else:
         raise Exception("Data not found.")
 

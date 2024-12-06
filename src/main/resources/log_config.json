@@ -2,7 +2,11 @@
     "version": 1,
     "disable_existing_loggers": false,
     "formatters": {
-        "simple": {
+        "colored_console": {
+            "()": "coloredlogs.ColoredFormatter",
+            "format": "%(asctime)s %(name)s:%(lineno)s %(funcName)s [%(levelname)s]: %(message)s"
+        },
+        "format_for_file": {
             "format": "%(asctime)s %(name)s:%(lineno)s %(funcName)s [%(levelname)s]: %(message)s"
         }
     },
@@ -11,14 +15,14 @@
         "consoleHandler": {
             "class": "logging.StreamHandler",
             "level": "INFO",
-            "formatter": "simple",
+            "formatter": "colored_console",
             "stream": "ext://sys.stdout"
         },
         "fileHandler": {
             "class": "logging.FileHandler",
             "level": "INFO",
-            "formatter": "simple",
-            "filename": "to be replaced"
+            "formatter": "format_for_file",
+            "filename": "smashmate_alert.log"
         }
     },
 
